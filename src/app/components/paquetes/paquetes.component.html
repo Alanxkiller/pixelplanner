@@ -1,0 +1,36 @@
+<body>
+    <div class="form-container">
+        <!-- Contenido del contenedor izquierdo -->
+        <br>
+        <h2 style="text-align: center;">Agregar Paquete</h2>
+    
+        <div class="input-container">
+            <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+                <input type="text" id="nombrePaquete" formControlName="nombrePaquete" placeholder="Ingrese el Nombre del Paquete">
+                <br><br>
+                <textarea id="descPaquete" formControlName="descPaquete" placeholder="Ingrese la Descripción del Paquete" rows="4" cols="50"></textarea>
+                <br><br>
+                <input type="submit" class="btnAceptar" id="btnAceptar" value="Aceptar">
+            </form>
+        </div>
+    </div>
+
+    <div class="table-paquetesData-container">
+        <table class="table-paquetesData">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let paquete of paquetesData">
+                    <td>{{paquete.nomPaquete}}</td>
+                    <td>{{paquete.descPaquete}}</td>
+                    <td><button class="btn btn-outline-danger" (click)="onClickDelete(paquete)">Eliminar paquete</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>

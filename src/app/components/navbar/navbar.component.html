@@ -1,0 +1,20 @@
+<nav>
+    <div class="logo">
+        <a [routerLink]="['home']">
+            <img src="assets/PPLogo.png" alt="Logo de pixelPlanner">
+            Pixel Planner
+        </a>
+    </div>
+    <ul class="nav-links">
+        
+        <li *ngIf="userLogged; else elseLogin" (click)="onClick()" class="btn btn-outline-danger mt-5"><a href="#">Cerrar sesión</a></li>
+        <ng-template #elseLogin>
+            <li routerLinkActive="active"><a [routerLink]="['login']">Iniciar sesión</a></li>
+            <li routerLinkActive="active"><a [routerLink]="['register']">Registrarse</a></li>
+        </ng-template>
+        <li routerLinkActive="active"><a [routerLink]="['clientes']">Clientes</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['citas']">Citas</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['paquetes']">Paquetes</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['eventos']">Eventos</a></li>
+    </ul>
+</nav>

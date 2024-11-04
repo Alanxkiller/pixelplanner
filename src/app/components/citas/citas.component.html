@@ -1,0 +1,59 @@
+<body>
+    <div class="form-container">
+        <!-- Contenido del contenedor izquierdo -->
+        <br>
+        <h2 style="text-align: center;">Crear Cita</h2>
+
+        <div class="input-container">
+            <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+                <select 
+                    id="selectedCliente" 
+                    formControlName="selectedCliente"
+                    (change)="onClienteChange($event)"
+                    class="form-select">
+                    <option value="">Seleccione un cliente</option>
+                    <option *ngFor="let cliente of clientes" [ngValue]="cliente">
+                        {{cliente.nombres}}
+                    </option>
+                </select>
+        
+                <!-- Campos ocultos para ID y nombre -->
+                <input type="hidden" formControlName="idCliente">
+                <input type="hidden" formControlName="nombresCliente">                 
+                <br><br>
+                
+                <input type="date" id="fechaYHora" formControlName="fechaYHora" placeholder="Ingrese la Fecha y la Hora">
+                <br><br>
+                <input type="text" id="monto" formControlName="monto" placeholder="Ingrese el Monto">
+                <br><br>
+                <input type="text" id="tipoPago" formControlName="tipoPago" placeholder="¿Anticipo o Liquidación?">
+                <br><br>
+                <input type="submit" class="btnAceptar" id="btnAceptar" value="Aceptar">
+            </form>
+        </div>
+
+    </div>
+
+    <div class="table-citasData-container">
+        <table class="table-citasData">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Fecha y Hora</th>
+                    <th>Tipo de Pago</th>
+                    <th>Monto</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cita of citasData">
+                    <td>{{cita.nombresCliente}}</td>
+                    <td>{{cita.fechaYHora}}</td>
+                    <td>{{cita.tipoPago}}</td>
+                    <td>{{cita.monto}}</td>
+                    <td><button class="btn btn-outline-danger" (click)="onClickDelete(cita)">Eliminar cita</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>

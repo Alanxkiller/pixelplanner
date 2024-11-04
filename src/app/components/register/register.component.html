@@ -1,0 +1,27 @@
+<br><br><br>
+<div class="login">
+    <div class="login-screen">
+        <div class="app-title">
+            <h1>Registrarse</h1>
+        </div>
+
+        <br>
+
+        <form [formGroup]="formReg" (ngSubmit)="onSubmit()">
+        <div class="login-form">
+            <div class="control-group">
+                <input type="text" class="login-field" formControlName="email" value="" placeholder="Email" id="login-name">
+                <label class="login-field-icon fui-user" for="login-name"></label>
+            </div>
+
+            <div class="control-group">
+                <input type="password" class="login-field" formControlName="password" value="" placeholder="Password" id="login-pass">
+                <label class="login-field-icon fui-lock" for="login-pass"></label>
+            </div>
+
+            <input type="submit" class="btn btn-primary btn-large btn-block" value="Registrarse">
+        </div>
+    </form>
+    <br><br><br>
+    </div>
+</div>

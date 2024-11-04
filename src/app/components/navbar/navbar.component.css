@@ -1,0 +1,43 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+nav {
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 50px;
+}
+
+.logo a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 2rem;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    padding: 0px 20px;
+    font-size: 1.3rem;
+}
+
+.nav-links li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.nav-links li a:hover {
+    color: #ddd;
+}
+.logo img {
+    width: 80px; /* ajusta el tamaño de la imagen según lo necesites */
+    vertical-align: middle; /* alinea verticalmente la imagen con el texto */
+    margin-right: 16px; /* espacio entre la imagen y el texto */
+}
