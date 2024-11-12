@@ -8,6 +8,7 @@ import { ClientesComponent } from './components/clientes/clientes.component';
 import { CitasComponent } from './components/citas/citas.component';
 import { EventosComponent } from './components/eventos/eventos.component';
 import { PaquetesComponent } from './components/paquetes/paquetes.component';
+import { CalendarioComponent } from './components/calendario/calendario.component';
 
 
 const routes: Routes = [
@@ -37,6 +38,11 @@ const routes: Routes = [
   {
     path: 'eventos',
     component: EventosComponent,
+    ...canActivate(() => redirectUnauthorizedTo(['/login']))
+  },
+  {
+    path: 'calendario',
+    component: CalendarioComponent,
     ...canActivate(() => redirectUnauthorizedTo(['/login']))
   },
 ];

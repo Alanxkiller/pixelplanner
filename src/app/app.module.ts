@@ -15,6 +15,7 @@ import { ClientesComponent } from './components/clientes/clientes.component';
 import { CitasComponent } from './components/citas/citas.component';
 import { EventosComponent } from './components/eventos/eventos.component';
 import { PaquetesComponent } from './components/paquetes/paquetes.component';
+import { CalendarioComponent } from './components/calendario/calendario.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { PaquetesComponent } from './components/paquetes/paquetes.component';
     ClientesComponent,
     CitasComponent,
     EventosComponent,
-    PaquetesComponent
+    PaquetesComponent,
+    CalendarioComponent
   ],
   imports: [
     BrowserModule,

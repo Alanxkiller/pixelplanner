@@ -31,18 +31,18 @@ export class CitasComponent implements OnInit {
     })
 
     this.citasData = [{
-      idCliente: "Unu",
-      nombresCliente: "Pepo",
-      fechaYHora: "19-20-2020",
-      tipoPago: "Anticipo",
+      idCliente: "Cargando...",
+      nombresCliente: "Cargando...",
+      fechaYHora: "Cargando...",
+      tipoPago: "Cargando...",
       monto: 0
     }];
 
     this.citaDatos = [{
-      idCliente: "Unu",
-      nombresCliente: "Pepo",
-      fechaYHora: "19-20-2020",
-      tipoPago: "Anticipo",
+      idCliente: "Cargando...",
+      nombresCliente: "Cargando...",
+      fechaYHora: "Cargando...",
+      tipoPago: "Cargando...",
       monto: 0
     }];
   }

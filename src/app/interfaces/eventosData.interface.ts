@@ -8,4 +8,5 @@ export default interface eventosData {
     idPaquete: string;
     nombrePaquete: string;
     monto: number;
-}
+    montoPagado: number;
+  }

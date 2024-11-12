@@ -2,52 +2,16 @@
     <div class="form-container">
         <!-- Contenido del contenedor izquierdo -->
         <br>
-        <h2 style="text-align: center;">Crear Evento</h2>
+        <h2 style="text-align: center;">Calendario</h2>
 
         <div class="input-container">
             <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
-                <select id="selectedCliente" formControlName="selectedCliente" (change)="onClienteChange($event)"
-                    class="form-select">
-                    <option value="" disabled selected>Seleccione un cliente</option>
-                    <option *ngFor="let cliente of clientes" [ngValue]="cliente">
-                        {{cliente.nombres}}
-                    </option>
-                </select>
+                <span>Rango:</span>
+                <input type="date" id="fechaFrom" formControlName="fechaFrom" placeholder="Ingrese la Fecha">
+                <span>a</span>
+                <input type="date" id="fechaTo" formControlName="fechaTo" placeholder="Ingrese la Fecha">
 
-                <!-- Campos ocultos para ID y nombre -->
-                <input type="hidden" formControlName="idCliente">
-                <input type="hidden" formControlName="nombresCliente">
-                <br><br>
-
-                <input type="text" id="nombreEvento" formControlName="nombreEvento"
-                    placeholder="Ingrese el Nombre del Evento">
-                <br><br>
-
-                <input type="text" id="dirEvento" formControlName="dirEvento"
-                    placeholder="Ingrese la Dirección del Evento">
-                <br><br>
-
-                <input type="date" id="fechaYHora" formControlName="fechaYHora"
-                    placeholder="Ingrese la Fecha y la Hora">
-                <br><br>
-
-                <select id="selectedCliente" formControlName="selectedPaquete" (change)="onPaqueteChange($event)"
-                    class="form-select">
-                    <option value="" disabled selected>Seleccione un paquete</option>
-                    <option *ngFor="let paquete of paquetes" [ngValue]="paquete">
-                        {{paquete.nomPaquete}}
-                    </option>
-                </select>
-
-                <!-- Campos ocultos para ID -->
-                <input type="hidden" formControlName="idPaquete">
-                <input type="hidden" formControlName="nombrePaquete">
-                <br><br>
-
-                <input type="text" id="monto" formControlName="monto" placeholder="Ingrese el Monto">
-                <br><br>
-
-                <input type="submit" class="btnAceptar" id="btnAceptar" value="Aceptar">
+                <input type="submit" class="btnAceptar" id="btnAceptar" value="Filtrar">
             </form>
         </div>
 
@@ -89,11 +53,11 @@
             </tbody>
         </table>
     </div>
-
+    
     <div class="export-container">
         <button class="btn btn-primary" (click)="exportarPDF()">Exportar a PDF</button>
     </div>
-
+    
     <!-- Popup de Pago -->
     <div class="popup" *ngIf="showPagoPopup">
         <div class="popup-content">
@@ -110,5 +74,4 @@
             </div>
         </div>
     </div>
-
 </body>

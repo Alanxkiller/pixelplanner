@@ -27,17 +27,17 @@ export class ClientesComponent implements OnInit {
     })
 
     this.clientesData = [{
-      nombres: "Jefferson",
-      apellidos: "Gutierres",
-      telefono: 4499999999,
-      correo: "ajaj@gmail.com"
+      nombres: "Cargando...",
+      apellidos: "Cargando...",
+      telefono: 0,
+      correo: "Cargando..."
     }];
 
     this.clienteDatos = [{
-      nombres: "Jefferson",
-      apellidos: "Gutierres",
-      telefono: 4499999999,
-      correo: "ajaj@gmail.com"
+      nombres: "Cargando...",
+      apellidos: "Cargando...",
+      telefono: 0,
+      correo: "Cargando..."
     }];
   }
 
