@@ -4,21 +4,24 @@ import eventosData from '../../interfaces/eventosData.interface';
 import { ClientesDataService } from '../../services/clientesData.service';
 import { EventosDataService } from '../../services/eventosData.service';
 import { PaquetesDataService } from '../../services/paquetesData.service';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { updateDoc } from '@angular/fire/firestore';
+
 
 @Component({
-  selector: 'app-eventos',
-  templateUrl: './eventos.component.html',
-  styleUrl: './eventos.component.css'
+  selector: 'app-calendario',
+  templateUrl: './calendario.component.html',
+  styleUrl: './calendario.component.css'
 })
-export class EventosComponent implements OnInit {
-
+export class CalendarioComponent {
   formulario: FormGroup;
   eventosData: eventosData[];
+  eventosDataOriginal: eventosData[]; // Guardamos la lista original
   eventoDatos: any[] = [];
-  clientes: any[] = []; // Array para almacenar la lista de clientes
-  clienteSeleccionado: any = null; // Para guardar el cliente completo
-  paquetes: any[] = []; // Array para almacenar la lista de clientes
-  paqueteSeleccionado: any = null; // Para guardar el cliente completo
+  mezez: any[] = [];
+  showPagoPopup = false;
+  eventoSeleccionado: eventosData | null = null;
 
   constructor(
     private eventosService: EventosDataService,
@@ -36,7 +39,8 @@ export class EventosComponent implements OnInit {
       idPaquete: new FormControl(''),
       nombrePaquete: new FormControl(''),
       monto: new FormControl(),
-    })
+      montoPagado: new FormControl(0), // Inicializado en 0
+    });
 
     this.eventosData = [{
       idCliente: "Cargando...",
@@ -46,8 +50,18 @@ export class EventosComponent implements OnInit {
       fechaYHora: "Cargando...",
       idPaquete: "Cargando...",
       nombrePaquete: "Cargando...",
-      monto: 42
+      monto: 42,
+      montoPagado : 42
     }];
+
+    this.eventosDataOriginal = [...this.eventosData];
+
+
+    this.mezez = 
+    ["Enero", "Febrero", "Marzo", 
+      "Abril", "Mayo", "Junio", 
+      "Julio", "Agosto", "Septiembre", 
+      "Octubre", "Noviembre", "Diciembre"];
 
     this.eventoDatos = [{
       idCliente: "...",
@@ -62,45 +76,6 @@ export class EventosComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
-    this.eventosService.getEventos().subscribe(eventos => {
-      this.eventosData = eventos;
-      console.log('eventos cargadas:', eventos);
-    });
-
-    this.clientesService.getClientes().subscribe(clientes => {
-      this.clientes = clientes;
-      console.log('Clientes cargados:', clientes);
-    });
-
-    this.paquetesService.getPaquetes().subscribe(paquetes => {
-      this.paquetes = paquetes;
-      console.log('Paquetes cargados:', paquetes);
-    });
-
-    // Suscribirse a los cambios del select de clientes
-    this.formulario.get('selectedCliente')?.valueChanges.subscribe(cliente => {
-      if (cliente) {
-        this.formulario.patchValue({
-          idCliente: cliente.id,
-          nombresCliente: cliente.nombres
-        });
-      }
-    });
-
-    // Suscribirse a los cambios del select de paquetes
-    this.formulario.get('selectedPaquete')?.valueChanges.subscribe(paquete => {
-      if (paquete) {
-        this.formulario.patchValue({
-          idPaquete: paquete.id,
-          nombrePaquete: paquete.nomPaquete
-        });
-      }
-    });
-  }
-
-<<<<<<< Updated upstream
-=======
   calcularColorFila(evento: eventosData): string {
     if (evento.montoPagado >= evento.monto) {
       return '#b6ecac'; // Verde claro
@@ -109,7 +84,7 @@ export class EventosComponent implements OnInit {
     }
     return ''; // Color por defecto
   }
-  
+
   estaCompletamentePagado(evento: eventosData): boolean {
     return (evento.montoPagado || 0) >= evento.monto;
   }
@@ -242,58 +217,43 @@ export class EventosComponent implements OnInit {
     doc.save('eventos.pdf');
 }
 
-
->>>>>>> Stashed changes
-  // Modificar el método onClienteChange para usar el nuevo enfoque
-  onClienteChange(event: any): void {
-    const cliente = this.formulario.get('selectedCliente')?.value;
-    if (cliente) {
-      this.formulario.patchValue({
-        idCliente: cliente.id,
-        nombresCliente: cliente.nombres
-      });
-    }
-  }
-
-  // Modificar el método onClienteChange para usar el nuevo enfoque
-  onPaqueteChange(event: any): void {
-    const paquete = this.formulario.get('selectedPaquete')?.value;
-    if (paquete) {
-      this.formulario.patchValue({
-        idPaquete: paquete.id,
-        nombrePaquete: paquete.nomPaquete
-      });
-    }
+  ngOnInit(): void {
+    this.eventosService.getEventos().subscribe(eventos => {
+      this.eventosData = eventos;
+      this.eventosDataOriginal = [...eventos]; // Guardamos una copia
+      console.log('eventos cargados:', eventos);
+    });
   }
 
     async onSubmit() {
-      if (this.formulario.valid) {
-        const nuevoEvento: eventosData = {
-          idCliente: this.formulario.get('idCliente')?.value,
-          nombresCliente: this.formulario.get('nombresCliente')?.value,
-          nombreEvento: this.formulario.get('nombreEvento')?.value,
-          dirEvento: this.formulario.get('dirEvento')?.value,
-          fechaYHora: this.formulario.get('fechaYHora')?.value,
-          idPaquete: this.formulario.get('idPaquete')?.value,
-          nombrePaquete: this.formulario.get('nombrePaquete')?.value,
-          monto: Number(this.formulario.get('monto')?.value)
-        };
-  
-        console.log('Nueva evento a guardar:', nuevoEvento);
-        try {
-          const response = await this.eventosService.addEvento(nuevoEvento);
-          console.log('Evento guardada exitosamente:', response);
-          this.formulario.reset();
-        } catch (error) {
-          console.error('Error al guardar la evento:', error);
-        }
+      const fechaFrom = new Date(this.formulario.get('fechaFrom')?.value);
+      const fechaTo = new Date(this.formulario.get('fechaTo')?.value);
+      
+      // Validar que ambas fechas sean válidas
+      if (!fechaFrom || !fechaTo) {
+        console.error('Por favor seleccione ambas fechas');
+        return;
       }
+  
+      // Ajustar fechaTo al final del día para incluir todos los eventos de ese día
+      fechaTo.setHours(23, 59, 59, 999);
+  
+      // Filtrar los eventos que estén dentro del rango de fechas
+      this.eventosData = this.eventosDataOriginal.filter(evento => {
+        const fechaEvento = new Date(evento.fechaYHora);
+        return fechaEvento >= fechaFrom && fechaEvento <= fechaTo;
+      });
+  
+      console.log('Eventos filtrados:', this.eventosData);
     }
 
-  async onClickDelete(evento: eventosData) {
-    const response = await this.eventosService.deleteEvento(evento);
-    console.log(this.eventoDatos);
-  }
+    async onClickDelete(evento: eventosData) {
+      const response = await this.eventosService.deleteEvento(evento);
+      // Actualizar ambas listas después de eliminar
+      this.eventosDataOriginal = this.eventosDataOriginal.filter(e => e !== evento);
+      this.eventosData = this.eventosData.filter(e => e !== evento);
+      console.log('Evento eliminado:', response);
+    }
 
   obtenerFechaHoraActual(): void {
     const fechaHoraActual = new Date();
@@ -323,6 +283,5 @@ export class EventosComponent implements OnInit {
 
     return new Date(0, 0, 0, hora, minutos, segundos); // Año y mes 0 representan la fecha base
   }
-
 
 }

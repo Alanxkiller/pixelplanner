@@ -1,43 +1,84 @@
-<body>
-    <div class="form-container">
-        <!-- Contenido del contenedor izquierdo -->
-        <br>
-        <h2 style="text-align: center;">Dar Alta a Cliente</h2>
+<body class="bg-orange-50 font-sans leading-normal tracking-normal">
     
-        <div class="input-container">
-            <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
-                <input type="text" id="nombres" formControlName="nombres" placeholder="Ingrese su Nombre">
-                <br><br>
-                <input type="text" id="apellidos" formControlName="apellidos" placeholder="Ingrese su Apellido">
-                <br><br>
-                <input type="text" id="telefono" formControlName="telefono" placeholder="Ingrese un Telefono">
-                <br><br>
-                <input type="text" id="correo" formControlName="correo" placeholder="Ingrese un Correo">
-                <br><br>
-                <input type="submit" class="btnAceptar" id="btnAceptar" value="Aceptar">
+    <!-- Contenedor del Formulario Dar Alta a Cliente -->
+    <div class="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg my-8">
+        <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Dar Alta a Cliente</h2>
+        
+        <div class="space-y-6">
+            <form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="space-y-4">
+                <!-- Campo de Nombre -->
+                <input 
+                    type="text" 
+                    id="nombres" 
+                    formControlName="nombres" 
+                    placeholder="Ingrese su Nombre"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-neutral-700 bg-white"
+                >
+
+                <!-- Campo de Apellido -->
+                <input 
+                    type="text" 
+                    id="apellidos" 
+                    formControlName="apellidos" 
+                    placeholder="Ingrese su Apellido"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-neutral-700 bg-white"
+                >
+
+                <!-- Campo de Teléfono -->
+                <input 
+                    type="text" 
+                    id="telefono" 
+                    formControlName="telefono" 
+                    placeholder="Ingrese un Teléfono"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-neutral-700 bg-white"
+                >
+
+                <!-- Campo de Correo -->
+                <input 
+                    type="text" 
+                    id="correo" 
+                    formControlName="correo" 
+                    placeholder="Ingrese un Correo"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-neutral-700 bg-white"
+                >
+
+                <!-- Botón Aceptar -->
+                <input 
+                    type="submit" 
+                    class="w-full bg-neutral-700 text-white font-semibold py-2 rounded-md hover:bg-neutral-600 transition duration-200 cursor-pointer"
+                    id="btnAceptar" 
+                    value="Aceptar"
+                >
             </form>
         </div>
     </div>
 
-    <div class="table-clientesData-container">
-        <table class="table-clientesData">
+    <!-- Tabla de Clientes -->
+    <div class="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-lg mb-8">
+        <table class="w-full text-left border-collapse">
             <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Telefono</th>
-                    <th>Correo</th>
-                    <th>Acción</th>
+                <tr class="bg-gray-100 border-b">
+                    <th class="p-4 text-sm font-semibold text-gray-600">Nombre</th>
+                    <th class="p-4 text-sm font-semibold text-gray-600">Teléfono</th>
+                    <th class="p-4 text-sm font-semibold text-gray-600">Correo</th>
+                    <th class="p-4 text-sm font-semibold text-gray-600">Acción</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let cliente of clientesData">
-                    <td>{{cliente.nombres}} {{cliente.apellidos}}</td>
-                    <td>{{cliente.telefono}}</td>
-                    <td>{{cliente.correo}}</td>
-                    <td><button class="btn btn-outline-danger" (click)="onClickDelete(cliente)">Eliminar cliente</button></td>
+                <tr *ngFor="let cliente of clientesData" class="hover:bg-gray-50">
+                    <td class="p-4 text-gray-700">{{cliente.nombres}} {{cliente.apellidos}}</td>
+                    <td class="p-4 text-gray-700">{{cliente.telefono}}</td>
+                    <td class="p-4 text-gray-700">{{cliente.correo}}</td>
+                    <td class="p-4">
+                        <button 
+                            class="text-red-500 font-semibold hover:text-red-700 transition duration-200"
+                            (click)="onClickDelete(cliente)">
+                            Eliminar cliente
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
-</body>
 
+</body>
