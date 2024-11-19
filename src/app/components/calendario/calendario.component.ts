@@ -40,6 +40,8 @@ export class CalendarioComponent {
       nombrePaquete: new FormControl(''),
       monto: new FormControl(),
       montoPagado: new FormControl(0), // Inicializado en 0
+      fechaFrom: new FormControl(''),
+      fechaTo: new FormControl('')
     });
 
     this.eventosData = [{
@@ -243,6 +245,7 @@ export class CalendarioComponent {
         const fechaEvento = new Date(evento.fechaYHora);
         return fechaEvento >= fechaFrom && fechaEvento <= fechaTo;
       });
+      console.log(fechaTo, fechaFrom)
   
       console.log('Eventos filtrados:', this.eventosData);
     }

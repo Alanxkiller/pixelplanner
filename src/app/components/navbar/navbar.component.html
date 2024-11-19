@@ -7,7 +7,7 @@
     </div>
     <ul class="nav-links">
         
-        <li *ngIf="userLogged; else elseLogin" (click)="onClick()" class="btn btn-outline-danger mt-5"><a href="#">Cerrar sesión</a></li>
+        <li *ngIf="userLogged; else elseLogin" (click)="onClick()"><a href="#">Cerrar sesión</a></li>
         <ng-template #elseLogin>
             <li routerLinkActive="active"><a [routerLink]="['login']">Iniciar sesión</a></li>
             <li routerLinkActive="active"><a [routerLink]="['register']">Registrarse</a></li>

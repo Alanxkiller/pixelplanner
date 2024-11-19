@@ -1,51 +1,75 @@
-<body>
-    <div class="form-container">
-        <!-- Contenido del contenedor izquierdo -->
-        <br>
-        <h2 style="text-align: center;">Calendario</h2>
+<body class="bg-orange-50 font-sans leading-normal tracking-normal">
+    <!-- Contenedor de Formulario de Filtro -->
+    <div class="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg my-8">
+        <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Calendario</h2>
+        
+        <div class="space-y-6">
+            <form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="space-y-4">
+                <!-- Rango de fechas -->
+                <div class="flex items-center space-x-2">
+                    <label for="fechaFrom" class="text-gray-700">Rango:</label>
+                    <input 
+                        type="date" 
+                        id="fechaFrom" 
+                        formControlName="fechaFrom" 
+                        placeholder="Ingrese la Fecha"
+                        class="w-32 px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-neutral-700 bg-white"
+                    >
+                    <span class="text-gray-700">a</span>
+                    <input 
+                        type="date" 
+                        id="fechaTo" 
+                        formControlName="fechaTo" 
+                        placeholder="Ingrese la Fecha"
+                        class="w-32 px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-neutral-700 bg-white"
+                    >
+                </div>
 
-        <div class="input-container">
-            <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
-                <span>Rango:</span>
-                <input type="date" id="fechaFrom" formControlName="fechaFrom" placeholder="Ingrese la Fecha">
-                <span>a</span>
-                <input type="date" id="fechaTo" formControlName="fechaTo" placeholder="Ingrese la Fecha">
-
-                <input type="submit" class="btnAceptar" id="btnAceptar" value="Filtrar">
+                <!-- Botón Filtrar -->
+                <input 
+                    type="submit" 
+                    class="w-full bg-neutral-700 text-white font-semibold py-2 rounded-md hover:bg-neutral-600 transition duration-200 cursor-pointer"
+                    id="btnAceptar" 
+                    value="Filtrar"
+                >
             </form>
         </div>
-
     </div>
 
-    <div class="table-eventosData-container">
-        <table class="table-eventosData">
+    <!-- Tabla de Eventos -->
+    <div class="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-lg mb-8">
+        <table class="w-full text-left border-collapse">
             <thead>
-                <tr>
-                    <th>Cliente</th>
-                    <th>Evento</th>
-                    <th>Dirección</th>
-                    <th>Fecha y Hora</th>
-                    <th>Nombre Paquete</th>
-                    <th>Monto</th>
-                    <th>Pagado</th>
-                    <th>Acciones</th>
+                <tr class="bg-gray-100 border-b">
+                    <th class="p-4 text-sm font-semibold text-gray-600">Cliente</th>
+                    <th class="p-4 text-sm font-semibold text-gray-600">Evento</th>
+                    <th class="p-4 text-sm font-semibold text-gray-600">Dirección</th>
+                    <th class="p-4 text-sm font-semibold text-gray-600">Fecha y Hora</th>
+                    <th class="p-4 text-sm font-semibold text-gray-600">Nombre Paquete</th>
+                    <th class="p-4 text-sm font-semibold text-gray-600">Monto</th>
+                    <th class="p-4 text-sm font-semibold text-gray-600">Pagado</th>
+                    <th class="p-4 text-sm font-semibold text-gray-600">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let evento of eventosData" [style.background-color]="calcularColorFila(evento)">
-                    <td>{{evento.nombresCliente}}</td>
-                    <td>{{evento.nombreEvento}}</td>
-                    <td>{{evento.dirEvento}}</td>
-                    <td>{{evento.fechaYHora}}</td>
-                    <td>{{evento.nombrePaquete}}</td>
-                    <td>${{evento.monto}}</td>
-                    <td>${{evento.montoPagado || 0}}</td>
-                    <td>
-                        <button *ngIf="!estaCompletamentePagado(evento)" class="btn btn-outline-primary me-2"
+                <tr *ngFor="let evento of eventosData" [style.background-color]="calcularColorFila(evento)" class="hover:bg-gray-50">
+                    <td class="p-4 text-gray-700">{{evento.nombresCliente}}</td>
+                    <td class="p-4 text-gray-700">{{evento.nombreEvento}}</td>
+                    <td class="p-4 text-gray-700">{{evento.dirEvento}}</td>
+                    <td class="p-4 text-gray-700">{{evento.fechaYHora}}</td>
+                    <td class="p-4 text-gray-700">{{evento.nombrePaquete}}</td>
+                    <td class="p-4 text-gray-700">${{evento.monto}}</td>
+                    <td class="p-4 text-gray-700">${{evento.montoPagado || 0}}</td>
+                    <td class="p-4">
+                        <button 
+                            *ngIf="!estaCompletamentePagado(evento)" 
+                            class="text-blue-500 font-semibold hover:text-blue-700 transition duration-200 pr-5"
                             (click)="abrirPopupPago(evento)">
                             Pagar
                         </button>
-                        <button class="btn btn-outline-danger" (click)="onClickDelete(evento)">
+                        <button 
+                            class="text-red-500 font-semibold hover:text-red-700 transition duration-200"
+                            (click)="onClickDelete(evento)">
                             Eliminar
                         </button>
                     </td>
@@ -53,24 +77,41 @@
             </tbody>
         </table>
     </div>
-    
-    <div class="export-container">
-        <button class="btn btn-primary" (click)="exportarPDF()">Exportar a PDF</button>
+
+    <!-- Contenedor de Exportación -->
+    <div class="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg mb-8 text-center">
+        <button 
+            class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
+            (click)="exportarPDF()">Exportar a PDF
+        </button>
     </div>
-    
+
     <!-- Popup de Pago -->
     <div class="popup" *ngIf="showPagoPopup">
-        <div class="popup-content">
-            <h3>Registrar Pago</h3>
-            <p>Monto total: ${{eventoSeleccionado?.monto}}</p>
-            <p>Monto pagado: ${{eventoSeleccionado?.montoPagado || 0}}</p>
-            <p>Restante: ${{eventoSeleccionado?.monto || 0 - (eventoSeleccionado?.montoPagado || 0)}}</p>
-            <input #cantidadPago type="number"
+        <div class="popup-content p-6 bg-white shadow-lg rounded-md w-96 mx-auto">
+            <h3 class="text-xl font-semibold mb-4">Registrar Pago</h3>
+            <p class="mb-2">Monto total: ${{eventoSeleccionado?.monto}}</p>
+            <p class="mb-2">Monto pagado: ${{eventoSeleccionado?.montoPagado || 0}}</p>
+            <p class="mb-4">Restante: ${{eventoSeleccionado?.monto || 0 - (eventoSeleccionado?.montoPagado || 0)}}</p>
+            <input 
+                #cantidadPago 
+                type="number"
                 [max]="eventoSeleccionado?.monto || 0 - (eventoSeleccionado?.montoPagado || 0)"
-                placeholder="Cantidad a pagar">
-            <div class="popup-buttons">
-                <button (click)="registrarPago(+cantidadPago.value)">Registrar Pago</button>
-                <button (click)="showPagoPopup = false">Cancelar</button>
+                placeholder="Cantidad a pagar"
+                class="mb-4 p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-neutral-700 bg-white"
+            >
+
+            <div class="popup-buttons flex justify-between">
+                <button 
+                    class="bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600 transition-colors"
+                    (click)="registrarPago(+cantidadPago.value)">
+                    Registrar Pago
+                </button>
+                <button 
+                    class="bg-gray-400 text-white py-2 px-6 rounded-md hover:bg-gray-500 transition-colors"
+                    (click)="showPagoPopup = false">
+                    Cancelar
+                </button>
             </div>
         </div>
     </div>

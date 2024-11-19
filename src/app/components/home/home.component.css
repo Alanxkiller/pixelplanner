@@ -1,0 +1,58 @@
+/* Animations */
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Apply animation to main container */
+  .dashboard-container {
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  /* Hover effects for cards */
+  .card {
+    transition: all 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+  
+  /* Custom scrollbar for recent events */
+  .recent-events {
+    scrollbar-width: thin;
+    scrollbar-color: #e2e8f0 #f8fafc;
+  }
+  
+  .recent-events::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .recent-events::-webkit-scrollbar-track {
+    background: #f8fafc;
+  }
+  
+  .recent-events::-webkit-scrollbar-thumb {
+    background-color: #e2e8f0;
+    border-radius: 3px;
+  }
+  
+  /* Chart container responsiveness */
+  .chart-container {
+    position: relative;
+    height: 400px;
+    width: 100%;
+  }
+  
+  @media (max-width: 768px) {
+    .chart-container {
+      height: 300px;
+    }
+  }

@@ -1,59 +1,96 @@
-<body>
-    <div class="form-container">
-        <!-- Contenido del contenedor izquierdo -->
-        <br>
-        <h2 style="text-align: center;">Crear Cita</h2>
+<body class="bg-orange-50 font-sans leading-normal tracking-normal">
 
-        <div class="input-container">
-            <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
-                <select 
-                    id="selectedCliente" 
-                    formControlName="selectedCliente"
-                    (change)="onClienteChange($event)"
-                    class="form-select">
-                    <option value="">Seleccione un cliente</option>
-                    <option *ngFor="let cliente of clientes" [ngValue]="cliente">
-                        {{cliente.nombres}}
-                    </option>
-                </select>
+    <!-- Contenedor del Formulario Crear Cita -->
+    <div class="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg my-8">
+        <!-- Título del formulario -->
+        <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Crear Cita</h2>
         
+        <div class="space-y-6">
+            <form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="space-y-4">
+                <!-- Select de Clientes -->
+                <div class="relative">
+                    <select 
+                        id="selectedCliente" 
+                        formControlName="selectedCliente"
+                        (change)="onClienteChange($event)"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-neutral-700 bg-white">
+                        <option value="">Seleccione un cliente</option>
+                        <option *ngFor="let cliente of clientes" [ngValue]="cliente">
+                            {{cliente.nombres}}
+                        </option>
+                    </select>
+                </div>
+                
                 <!-- Campos ocultos para ID y nombre -->
                 <input type="hidden" formControlName="idCliente">
-                <input type="hidden" formControlName="nombresCliente">                 
-                <br><br>
-                
-                <input type="date" id="fechaYHora" formControlName="fechaYHora" placeholder="Ingrese la Fecha y la Hora">
-                <br><br>
-                <input type="text" id="monto" formControlName="monto" placeholder="Ingrese el Monto">
-                <br><br>
-                <input type="text" id="tipoPago" formControlName="tipoPago" placeholder="¿Anticipo o Liquidación?">
-                <br><br>
-                <input type="submit" class="btnAceptar" id="btnAceptar" value="Aceptar">
+                <input type="hidden" formControlName="nombresCliente">
+
+                <!-- Campo de Fecha y Hora -->
+                <input 
+                    type="date" 
+                    id="fechaYHora" 
+                    formControlName="fechaYHora" 
+                    placeholder="Ingrese la Fecha y la Hora"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-neutral-700 bg-white"
+                >
+
+                <!-- Campo de Monto -->
+                <input 
+                    type="text" 
+                    id="monto" 
+                    formControlName="monto" 
+                    placeholder="Ingrese el Monto"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-neutral-700 bg-white"
+                >
+
+                <!-- Campo de Tipo de Pago -->
+                <input 
+                    type="text" 
+                    id="tipoPago" 
+                    formControlName="tipoPago" 
+                    placeholder="¿Anticipo o Liquidación?"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-neutral-700 bg-white"
+                >
+
+                <!-- Botón Aceptar -->
+                <input 
+                    type="submit" 
+                    class="w-full bg-neutral-700 text-white font-semibold py-2 rounded-md hover:bg-neutral-600 transition duration-200 cursor-pointer"
+                    id="btnAceptar" 
+                    value="Aceptar"
+                >
             </form>
         </div>
-
     </div>
 
-    <div class="table-citasData-container">
-        <table class="table-citasData">
+    <!-- Tabla de Citas -->
+    <div class="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-lg mb-8">
+        <table class="w-full text-left border-collapse">
             <thead>
-                <tr>
-                    <th>Cliente</th>
-                    <th>Fecha y Hora</th>
-                    <th>Tipo de Pago</th>
-                    <th>Monto</th>
-                    <th>Acción</th>
+                <tr class="bg-gray-100 border-b">
+                    <th class="p-4 text-sm font-semibold text-gray-600">Cliente</th>
+                    <th class="p-4 text-sm font-semibold text-gray-600">Fecha y Hora</th>
+                    <th class="p-4 text-sm font-semibold text-gray-600">Tipo de Pago</th>
+                    <th class="p-4 text-sm font-semibold text-gray-600">Monto</th>
+                    <th class="p-4 text-sm font-semibold text-gray-600">Acción</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let cita of citasData">
-                    <td>{{cita.nombresCliente}}</td>
-                    <td>{{cita.fechaYHora}}</td>
-                    <td>{{cita.tipoPago}}</td>
-                    <td>{{cita.monto}}</td>
-                    <td><button class="btn btn-outline-danger" (click)="onClickDelete(cita)">Eliminar cita</button></td>
+                <tr *ngFor="let cita of citasData" class="hover:bg-gray-50">
+                    <td class="p-4 text-gray-700">{{cita.nombresCliente}}</td>
+                    <td class="p-4 text-gray-700">{{cita.fechaYHora}}</td>
+                    <td class="p-4 text-gray-700">{{cita.tipoPago}}</td>
+                    <td class="p-4 text-gray-700">{{cita.monto}}</td>
+                    <td class="p-4">
+                        <button 
+                            class="text-red-500 font-semibold hover:text-red-700 transition duration-200"
+                            (click)="onClickDelete(cita)">
+                            Eliminar cita
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
+
 </body>

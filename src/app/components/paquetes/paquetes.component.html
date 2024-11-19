@@ -1,34 +1,60 @@
-<body>
-    <div class="form-container">
-        <!-- Contenido del contenedor izquierdo -->
-        <br>
-        <h2 style="text-align: center;">Agregar Paquete</h2>
-    
-        <div class="input-container">
-            <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
-                <input type="text" id="nombrePaquete" formControlName="nombrePaquete" placeholder="Ingrese el Nombre del Paquete">
-                <br><br>
-                <textarea id="descPaquete" formControlName="descPaquete" placeholder="Ingrese la Descripción del Paquete" rows="4" cols="50"></textarea>
-                <br><br>
-                <input type="submit" class="btnAceptar" id="btnAceptar" value="Aceptar">
+<body class="bg-orange-50 font-sans leading-normal tracking-normal">
+    <!-- Contenedor de Formulario para Agregar Paquete -->
+    <div class="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg my-8">
+        <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Agregar Paquete</h2>
+        
+        <div class="space-y-6">
+            <form [formGroup]="formulario" (ngSubmit)="onSubmit()" class="space-y-4">
+                <!-- Campo de Nombre del Paquete -->
+                <input 
+                    type="text" 
+                    id="nombrePaquete" 
+                    formControlName="nombrePaquete" 
+                    placeholder="Ingrese el Nombre del Paquete"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-neutral-700 bg-white"
+                >
+
+                <!-- Campo de Descripción del Paquete -->
+                <textarea 
+                    id="descPaquete" 
+                    formControlName="descPaquete" 
+                    placeholder="Ingrese la Descripción del Paquete"
+                    rows="4" 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-neutral-700 bg-white"
+                ></textarea>
+
+                <!-- Botón Aceptar -->
+                <input 
+                    type="submit" 
+                    class="w-full bg-neutral-700 text-white font-semibold py-2 rounded-md hover:bg-neutral-600 transition duration-200 cursor-pointer"
+                    id="btnAceptar" 
+                    value="Aceptar"
+                >
             </form>
         </div>
     </div>
 
-    <div class="table-paquetesData-container">
-        <table class="table-paquetesData">
+    <!-- Tabla de Paquetes -->
+    <div class="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-lg mb-8">
+        <table class="w-full text-left border-collapse">
             <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Acción</th>
+                <tr class="bg-gray-100 border-b">
+                    <th class="p-4 text-sm font-semibold text-gray-600">Nombre</th>
+                    <th class="p-4 text-sm font-semibold text-gray-600">Descripción</th>
+                    <th class="p-4 text-sm font-semibold text-gray-600">Acción</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let paquete of paquetesData">
-                    <td>{{paquete.nomPaquete}}</td>
-                    <td>{{paquete.descPaquete}}</td>
-                    <td><button class="btn btn-outline-danger" (click)="onClickDelete(paquete)">Eliminar paquete</button></td>
+                <tr *ngFor="let paquete of paquetesData" class="hover:bg-gray-50">
+                    <td class="p-4 text-gray-700">{{paquete.nomPaquete}}</td>
+                    <td class="p-4 text-gray-700">{{paquete.descPaquete}}</td>
+                    <td class="p-4">
+                        <button 
+                            class="text-red-500 font-semibold hover:text-red-700 transition duration-200"
+                            (click)="onClickDelete(paquete)">
+                            Eliminar paquete
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
